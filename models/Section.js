@@ -1,0 +1,21 @@
+const mongoose = require("mongoose");
+
+const sectionSchema = new mongoose.Schema({
+
+   sectionName : {
+    type: String,
+    reqiure : true,
+
+   },
+   subSection: [
+    {
+        type:mongoose.Schema.Types.ObjectId,
+        required:true,
+
+    }
+   ],
+
+
+});
+
+module.exports = mongoose.model("Section", sectionSchema);
