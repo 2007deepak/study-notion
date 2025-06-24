@@ -56,66 +56,66 @@ exports.resetPasswordToken = async (req , res) => {
 //resetPassword
 
 
-exports.resetPassword = async (req , res) => {
-    try{
+    exports.resetPassword = async (req , res) => {
+        try{
 
-        //fect data
+            //fect data
 
-        const {token, password, confirmPassword} = req.body;
+            const {token, password, confirmPassword} = req.body;
+        
+        //validate data
+        if(!!password || !confirmPassword ) {
+            return res.status(400).json({
+
+                successs : false,
+                message:"Password not matching",
+            });
+
+        }
+
+        //gett userdetails from db using token
     
-    //validate data
-    if(!!password || !confirmPassword ) {
-        return res.status(400).json({
+        const userdetails = await User.findOne({token: token});
+        
+        //if no entry - invalid token
 
-            successs : false,
-            message:"Password not matching",
+        if(!userdetails){
+            return res.status(404).json({
+                success : false,
+                message: "Invalid token or token expired, please try agin"
+            })
+        }
+        //token time check
+        if(userdetails.resetPassworExpire < Date.now()) {
+            return res.status(400).json({
+                success: false,
+                messager: "Token is Invalid"
+            })
+        }
+
+        //hash Password
+        const hashPassword = await bcrypt.hash(password,10);
+
+        //update password in db
+
+        await User.findOneAndUpdate(
+            {token: token},
+            {password: hashPassword},
+            {new:true}
+        );
+        //return response
+        return res.status(200).json({
+            success: true,
+            message: "Password updated successfully"
         });
 
+
+    }catch(error){
+        return res.status(500).json({
+            success:false,
+            message: "Something went wrong while resending reset pwd mail",
+        });
+
+
     }
-
-    //gett userdetails from db using token
-  
-    const userdetails = await User.findOne({token: token});
-    
-    //if no entry - invalid token
-
-    if(!userdetails){
-        return res.status(404).json({
-            success : false,
-            message: "Invalid token or token expired, please try agin"
-        })
-    }
-    //token time check
-    if(userdetails.resetPassworExpire < Date.now()) {
-        return res.status(400).json({
-            success: false,
-            messager: "Token is Invalid"
-        })
-    }
-
-    //hash Password
-    const hashPassword = await bcrypt.hash(password,10);
-
-    //update password in db
-
-    await User.findOneAndUpdate(
-        {token: token},
-        {password: hashPassword},
-        {new:true}
-    );
-    //return response
-    return res.status(200).json({
-        success: true,
-        message: "Password updated successfully"
-    });
-
-
-}catch(error){
-    return res.status(500).json({
-        success:false,
-        message: "Something went wrong while resending reset pwd mail",
-    });
-
-
-}
-}
+ }
