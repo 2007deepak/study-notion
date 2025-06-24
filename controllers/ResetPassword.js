@@ -68,7 +68,7 @@ exports.resetPassword = async (req , res) => {
         return res.status(400).json({
 
             successs : false,
-            message:"PAssword not matching",
+            message:"Password not matching",
         });
 
     }
