@@ -37,8 +37,11 @@ async function sendVerificationEmail(email, otp){
 }
 // Otp generateing middleware
 // ye OTP Database me save hone se pehle chalega
-OTPSchema.pre("save", async function(next){
-    await sendVerificationEmail(this.email, this.otp);
+ OTPSchema.pre("save", async function(next){
+ await sendVerificationEmail(this.email, this.otp);
     next();
 })
-module.exports = mongoose.model("OTP", OTPSchema)
+
+
+
+module.exports = mongoose.model("OTP", OTPSchema);
