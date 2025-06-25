@@ -53,7 +53,32 @@ const user = reqiure("../models/user.js");
 
 //is Students
 
+exports.isStudent = async (req, res, next) => {
 
+    try{
+
+        if(req.user.accountType !== "isStudent"){
+
+            return res.status.json({
+
+                success : false,
+                message: "This is a Protected route for Students only",
+
+            });
+        }
+        next();
+
+    } catch(error)
+    {
+        return res.status(500).json({
+            success: false,
+            messagess: "User role cannot be verified, please try agian"
+            
+
+        })
+
+    }
+}
 
 
 //isInstructor
