@@ -73,7 +73,7 @@ exports.isStudent = async (req, res, next) => {
         return res.status(500).json({
             success: false,
             messagess: "User role cannot be verified, please try agian"
-            
+
 
         })
 
@@ -83,6 +83,22 @@ exports.isStudent = async (req, res, next) => {
 
 //isInstructor
 
+exports.isInstructor = async (req, res, next) => {
+  try {
+    if (req.user.accountType !== "isInstructor") {
+      return res.status.json({
+        success: false,
+        message: "This is a Protected route for Instructor only",
+      });
+    }
+    next();
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      messagess: "User role cannot be verified, please try agian",
+    });
+  }
+};
 
 //isAdmin
 
