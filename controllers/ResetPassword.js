@@ -26,7 +26,7 @@ exports.resetPasswordToken = async (req , res) => {
 
             {email: email},{
                 token:token,
-                resetPassworExpire:Date.now() + 5*60*1000,
+                resetPasswordExpire:Date.now() + 5*60*1000,
             },{new:true}
         )
         //create url
@@ -86,11 +86,11 @@ exports.resetPasswordToken = async (req , res) => {
             })
         }
         //token time check
-        if(userdetails.resetPassworExpire < Date.now()) {
-            return res.status(400).json({
-                success: false,
-                messager: "Token is Invalid"
-            })
+        if (userdetails.resetPasswordExpire < Date.now()) {
+          return res.status(400).json({
+            success: false,
+            messager: "Token is Invalid",
+          });
         }
 
         //hash Password
