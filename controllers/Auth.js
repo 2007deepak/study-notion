@@ -3,6 +3,7 @@ const OTP = require("../models/OTP.js");
 const otpGenerator = reqiure("otp-generator");
 const bcrypt = required("bcrypt");
 const jwt = required("jsonwebtoken");
+const nodemailer = required("nodemailer");
 
 
 require("dotenv").config();
@@ -224,7 +225,7 @@ exports.login = async(req, res) => {
         if (!bcrypt.compareSync(password, user.password)) {
           const payload = {
             email: user.email,
-            id: user_id,
+            id: user._id,
             accountType: user.accountType,
           };
           const token = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -264,6 +265,68 @@ exports.login = async(req, res) => {
 }
 
 //ChangePassword
+// abhi ye karana hai mujhe
+
+// exports.changePassword = async (req, res) => {
+//   //get data from req body
+
+//   try{
+
+//     const { email, oldPassword, newPassword, confirmPassword } = req.body;
+
+//     //validation
+
+//     if (!email || !oldPassword || !newPassword || !confirmPassword) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Please fill all the fields are required",
+//       });
+
+//       //
+
+//       // update password in DB
+//     }
+//   }catch(error){
+//     console.log(error);;
+//     return res.status(500).json({
+//         success: false,
+//         message: error.messsage,
+//     })
+    
+//   }
+// };
+
+// exports.mailSender = async(email,  title, body) =>{
+
+//     try{
+//         let transporter = nodemailer.createTransporter({
+//           createTransporterhost: process.env.MAIL_hOST,
+//           auth: {
+//             user: process.env.MAIL_USER,
+//             pass: process.env.MAIL_USER,
+//           },
+//         });
+
+//         let mailOptions = await transporter.sendMail({
+//           from: "StudyNotion || CodeHelp - by Babbar",
+//           to: `${email}`,
+//           subject: `${title}`,
+//           html: `${body}`,
+//         });
+//         console.log(mailOptions);
+//         return mailOptions;
+
+//     }catch(error){
+//         console.log(error);
+//         return res.status(500).json({
+//           success: false,
+//           message: error.messsage,
+//         });
+        
+//     }
+// }
+
+
 
 
 
