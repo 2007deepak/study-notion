@@ -60,3 +60,46 @@
     
     }
 }
+
+exports.updateSectioon = async (req, res) => {
+
+    try{
+
+        //data fetch karana
+
+     const {sectionName , sectionId} = req.body;
+
+        //data validation krana
+
+    if(!sectionName || !sectionId){
+        
+        return res.status(200).json({
+          success: true,
+          message: "creation not ",
+        });
+    }
+
+
+        // data Update karana
+
+        const updateSection = await updateSection.findByIdAndUpdate(sectionId, {sectionName}, {new:true}
+
+        );
+
+        // response return karana
+        return res.status(200).json({
+          success: true,
+          message: "Section Updated successfully",
+         
+        });
+
+    }catch(error)
+    {
+        console.log(error);
+        return res.stauts(200).json({
+          success: true,
+          message: "Unable to cUpdate Section ,plaese try again ",
+          error:error.message,
+        });
+    }
+}
