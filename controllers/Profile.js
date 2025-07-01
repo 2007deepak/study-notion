@@ -51,3 +51,75 @@ exports.updateProfile = async (req, res) => {
 
     }
 }
+
+// deletion of user PRofile
+
+exports.deletProfile = async(res, req) =>{
+
+
+   try{
+     //get id
+     const id = req.user.id;
+
+     // validation
+     const userDetails = await User.findId(id);
+     if (!userDetails) {
+       return res.status(404).json({
+         success: false,
+         message: "User not found",
+       });
+     }
+
+     // delete Profiles
+
+     await Profile.findByIdDelete({ _id: userDetails.additionalDetails });
+
+     //user delete
+
+     await User.findByIdAndDelete({ _id: id });
+
+     //response
+
+     return res.status(200).json({
+       success: true,
+       message: "User Details Successfully",
+     });
+
+   }catch(error)
+   {
+
+    return res.status(404).json({
+      success: false,
+      message: 'User cannot be deleted successfully',
+    });
+   }
+
+}
+
+exports.getALLUserDetails = async (res , req) => {
+
+    try{
+
+        // get user id
+
+        const id = req.user.id;
+    
+        // validation and  get user detalis 
+        const userDetails = await User.findById(id).populate(
+          "additionalDetails"
+        );
+        //return response
+        return res.status(200).json({
+          success: true,
+          message: "User Data Fetched Successfully",
+        });
+
+    }catch(error)
+    {
+        return res.status(404).json({
+            success:false,
+            message:error.massege,
+
+        });
+    }
+}
