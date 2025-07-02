@@ -64,17 +64,43 @@ exports.capturePayment = async (req , res) => {
 
 //order create
 
-const amount = course.price;
-const currency = "INR";
+  const amount = course.price;
+  const currency = "INR";
 
-const options = {
-    ammount: amount * 100,
-    currency,
-    receipt: Math.random(Date.now()).toString(),
-    notes:{
-        courseId:course_id,
-        userId,
-    }
-};
+  const options = {
+      ammount: amount * 100,
+      currency,
+      receipt: Math.random(Date.now()).toString(),
+      notes:{
+          courseId:course_id,
+          userId,
+      }
+  };
+    try{
 
-};
+
+    //initiate the payment using razorpay
+    const paymentResponse = await intance.orders.create(options);
+    console.log(paymentResponse);
+
+    //return response
+
+    return res.status(200).json({
+        success:true,
+        courseName : course.courseName,
+        thumbnail : course.thumbnail,
+    courseDescription : course.courseDescription,
+    orderId : paymentResponse.Id,
+    currency:paymentResponse.currency,
+    amount : paymentResponse.amount,
+   })
+    }catch(error)
+      {
+        console.log(error);
+        res.json({
+          success: false,
+          message: "Could not initiate order",
+        });
+      }
+
+    };
