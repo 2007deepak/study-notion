@@ -32,7 +32,7 @@ exports.capturePayment = async (req , res) => {
 
     try{
 
-        const course = await findById(course_id);
+     course = await findById(course_id);
 
         if(!course) {
             return res.json({
@@ -61,4 +61,6 @@ exports.capturePayment = async (req , res) => {
         });
         
     }
-}
+};
+//order create
+
