@@ -61,6 +61,20 @@ exports.capturePayment = async (req , res) => {
         });
         
     }
-};
+
 //order create
 
+const amount = course.price;
+const currency = "INR";
+
+const options = {
+    ammount: amount * 100,
+    currency,
+    receipt: Math.random(Date.now()).toString(),
+    notes:{
+        courseId:course_id,
+        userId,
+    }
+};
+
+};
