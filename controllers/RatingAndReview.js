@@ -78,3 +78,56 @@ exports.createRating = async(req, res) =>{
 
 
 }
+
+//getAverageRating
+exports.getAverageRating = async (req, res) => {
+    try{
+
+        //get course ID
+
+        const courseId = req.body.courseId;
+        //calculate avg rating
+
+        const result = await RatingAndReview.aggregate([
+
+            {
+                // course id pahle String me thi ab use ObjectId convert kar diya
+                $match: {
+                    course: new mongoose.Type.ObjectId(courseId),
+                },
+            },
+            {
+                $group:{
+                    _id:null,
+                    averageRating: {$avg: "$rating"},
+                }
+            }
+        ])
+
+        //return rating
+        if(result.lenght  > 0) {
+
+            return res.status(200).json({
+             averageRating: result[0].averageRating
+            })
+        }
+        
+        //if no reating/Review exist
+        return res.status(200).json({
+            success:true,
+            message:'Average Rating is 0 , no ratings givens till now',
+            averageRating:0,
+        })
+    }
+    catch(error){
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message:error.message
+
+        })
+        
+    }
+
+
+}
