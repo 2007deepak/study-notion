@@ -37,3 +37,14 @@ router.post("/sendOtp", sendOTP)
 //Route for Changing the Password
 router.post("/changepassword",auth, changePassword)
 
+//********************************************************************************************************
+//                                      Reset Password
+// ********************************************************************************************************
+
+// Route for generating a reset password token
+router.post("/r/reset-password-tokene",resetPasswordToken);
+
+// Route for resetting user's password after verification
+router.post("/reset-password", resetPassword);
+
+module.exports = router;
