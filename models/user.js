@@ -32,17 +32,25 @@ const userSchema = new mongoose.Schema({
     required: true,
     ref: "Profile",
   },
-  courses:[
+  active: {
+    type: Boolean,
+    default: true,
+  },
+  approved: {
+    type: Boolean,
+    default: true,
+  },
+  courses: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course",
-    }
+    },
   ],
   image: {
     type: String,
     required: true,
   },
-  token:{
+  token: {
     type: String,
   },
   resetPasswordExpire: {
@@ -54,5 +62,9 @@ const userSchema = new mongoose.Schema({
       ref: "CourseProgress",
     },
   ],
-});
+  // Add timestamps for when the document is created and last modified
+},
+{timestamps: true }
+);
+// / Export the Mongoose model for the user schema, using the name "user"
 module.exports = mongoose.model("User", userSchema);
