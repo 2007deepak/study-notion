@@ -56,3 +56,15 @@ router.get("/getAllCourse", getAllCourse)
 
 //get Details for a Specific Courses
 router.get("/getCourseDetalis", getCourseDetails);
+
+// ********************************************************************************************************
+//                                      Category routes (Only by Admin)
+// ********************************************************************************************************
+
+//Category can only be Created by Admin
+
+const {auth,isInstructor,isStudent,isAdmin,} = require("../middleware/auth");
+
+router.post("/createCategory", auth, isAdmin, createCategory);
+router.post("/showAllCategory", auth, isAdmin,showAllCategory);
+router.post("/categoryPageDetails", auth, isAdmin, categoryPageDetails);
