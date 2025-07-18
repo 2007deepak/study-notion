@@ -32,7 +32,7 @@ exports.capturePayment = async (req , res) => {
 
     try{
 
-     course = await findById(course_id);
+     course = await Course.findById(course_id);
 
         if(!course) {
             return res.json({
@@ -76,9 +76,7 @@ exports.capturePayment = async (req , res) => {
           userId,
       }
   };
-    try{
-
-
+  try{
     //initiate the payment using razorpay
     const paymentResponse = await intance.orders.create(options);
     console.log(paymentResponse);
@@ -89,12 +87,12 @@ exports.capturePayment = async (req , res) => {
         success:true,
         courseName : course.courseName,
         thumbnail : course.thumbnail,
-    courseDescription : course.courseDescription,
-    orderId : paymentResponse.Id,
-    currency:paymentResponse.currency,
-    amount : paymentResponse.amount,
+        courseDescription : course.courseDescription,
+        orderId : paymentResponse.Id,
+        amount : paymentResponse.amount,
+        currency:paymentResponse.currency,
    })
-    }catch(error)
+ }     catch(error)
       {
         console.log(error);
         res.json({
