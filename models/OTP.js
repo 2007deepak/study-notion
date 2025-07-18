@@ -12,7 +12,7 @@ const  OTPSchema = new mongoose.Schema({
         required: true
     },
     createdAt:{
-        type:DataTransfer,
+        type:Data,
         default: Date.now,
         expires: 5*60,
     },
@@ -38,10 +38,17 @@ async function sendVerificationEmail(email, otp){
 // Otp generateing middleware
 // ye OTP Database me save hone se pehle chalega
  OTPSchema.pre("save", async function(next){
- await sendVerificationEmail(this.email, this.otp);
-    next();
+console.log("New document saved to database");
+
+if(this.isNew){
+         await sendVerificationEmail(this.email, this.otp);
+         next();
+}
+
 })
 
 
 
-module.exports = mongoose.model("OTP", OTPSchema);
+const OTP = mongoose.model("OTP", OTPSchema);
+
+module.exports = OTP;
