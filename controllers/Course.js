@@ -74,13 +74,14 @@ exports.createCourse = async(req , res) => {
         courseName,
         courseDescription,
         instructor: instructorDetails._id,
-        whatYouWillLearn: whatYouWillLearn,
+        whatYouWillLearn: whatYoutWillLearn,
         price,
         tag: tag,
         category: categoryDetails._id,
         thumbnail: thumbnailImage.secure_url,
         status: status,
-        instructions: instructions,
+        instructions: instruction,
+
       });
 
       // Add the new course to the User Schema of the Instructor
@@ -117,12 +118,46 @@ exports.createCourse = async(req , res) => {
         console.log(error);
         return res.status(500).json({
           success: false,
-          message:`Cant't Fetch Course Data`,
+          message: "Failed to create course",
           error: error.message,
         });
 
     }
 };
+
+//get all courses
+
+exports.getAllCourse = async (req, res) => {
+
+      try{
+
+          const allCourse = await Course.find(
+            {},
+            {
+              courseName: true,
+              price: true,
+              thumbnail: true,
+              instructor: true?
+              ratingAndReviews: true,
+              studentsEnrolled: true,
+            }
+          )
+            .populate("instruction")
+            .exec();
+            return res.status(200).json({
+              success: true,
+              data: allCourse,
+            });
+
+      }catch (error) {
+		  console.log(error);
+		  return res.status(404).json({
+			  success: false,
+			  message: `Can't Fetch Course Data`,
+			  error: error.message,
+		    });
+      }
+}
 
 //getCourseDetails
 exports.getCourseDetails = async (req, res) => {
