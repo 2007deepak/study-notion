@@ -68,3 +68,12 @@ const {auth,isInstructor,isStudent,isAdmin,} = require("../middleware/auth");
 router.post("/createCategory", auth, isAdmin, createCategory);
 router.post("/showAllCategory", auth, isAdmin,showAllCategory);
 router.post("/categoryPageDetails", auth, isAdmin, categoryPageDetails);
+
+
+// ********************************************************************************************************
+//                                      Rating and Review
+// ********************************************************************************************************
+router.post("/createRating", auth, isStudent, createRating);
+router.get("/getAverageRating", auth, isStudent, getAverageRating);
+router.get("/getAllRating", auth, isStudent,getAllRating);
+
