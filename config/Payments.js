@@ -146,7 +146,7 @@ exports.capturePayment = async (req,res) => {
           
           console.log(enrolledStudent);
           //mail send kardo confirmation wala
-          const emailResponse = await mailSender(isEnrolledStudent.email,
+          const emailResponse = await mailSender(enrolledStudent.email,
             "Congaratulation from StudyNotion",
             "Congratulation,you are onboarded into new CodeHelp Course",
     
