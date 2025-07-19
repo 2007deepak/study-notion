@@ -21,6 +21,7 @@ const PORT = process.env.PORT || 4000;
 database.connectDB();
 
 //middlewares
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(
