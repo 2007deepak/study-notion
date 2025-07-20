@@ -8,14 +8,14 @@ const {
     login,
     sendOTP,
     // changePassword ya wala Auth handler abhi baki hai ise karana hai
-} = require("../controllers/Auth")
+} = require("../controllers/Auth.js")
 
 const {
     resetPasswordToken,
     resetPassword,
-} = require("../controllers/ResetPassword")
+} = require("../controllers/ResetPassword.js")
 
-const {auth} = require("../middleware/auth")
+const {auth} = require("../middleware/auth.js")
 
 
 //Routes for login, Signup, and Authentication
@@ -35,14 +35,14 @@ router.post("/signup",signUp)
 router.post("/sendOtp", sendOTP)
 
 //Route for Changing the Password
-router.post("/changepassword",auth, changePassword)
+//router.post("/changepassword",auth, changePassword)
 
 //********************************************************************************************************
 //                                      Reset Password
 // ********************************************************************************************************
 
 // Route for generating a reset password token
-router.post("/r/reset-password-tokene",resetPasswordToken);
+router.post("/reset-password-tokene",resetPasswordToken);
 
 // Route for resetting user's password after verification
 router.post("/reset-password", resetPassword);
