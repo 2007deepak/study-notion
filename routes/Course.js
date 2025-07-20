@@ -1,28 +1,51 @@
-const express = require("express")
-const router =  express.Router()
+const express = require("express");
+const router = express.Router();
 
 //Import Controller
 
 // Course controllers Imports
-const {createCourse, getCourseDetails, getAllCourse} = require("../controllers/Course");
-
+const {
+  createCourse,
+  getCourseDetails,
+  getAllCourse,
+} = require("../controllers/Course.js");
 
 //Categories Controllers Imports
-const{createCategory, showAllCategory, categoryPageDetails} = require("../controllers/Category");
+const {
+  createCategory,
+  showAllCategory,
+  categoryPageDetails,
+} = require("../controllers/Category.js");
 
 //Section Controller imports
-const{createSection,updateSection,deleteSection} = require("../controllers/Section")
+const {
+  createSection,
+  updateSection,
+  deleteSection,
+} = require("../controllers/Section.js");
 
 //Subsection Controller imports
 
-const{createSubSection, updateSubSection, deleteSubSection} = require("../controllers/Subsection")
+const {
+  createSubSection,
+  updateSubSection,
+  deleteSubSection,
+} = require("../controllers/Subsection.js");
 
 //const controllers Rating and Reviwe imports
-const {createRating, getAverageRating,getAllRating} = require("../controllers/RatingAndReview")
+const {
+  createRating,
+  getAverageRating,
+  getAllRating,
+} = require("../controllers/RatingAndReview.js");
 
-//import middleware 
-const {auth,isStudent,isInstructor,isAdmin} = require("../middleware/auth");
-
+//import middleware
+const {
+  auth,
+  isStudent,
+  isInstructor,
+  isAdmin,
+} = require("../middleware/auth.js");
 
 // ********************************************************************************************************
 //                                      Course routes
@@ -31,12 +54,10 @@ const {auth,isStudent,isInstructor,isAdmin} = require("../middleware/auth");
 //Course can Only be Created by Instructors
 router.post("/createCourse", auth, isInstructor, createCourse);
 
-
 //Add a Section to a Course
 router.post("/addSection", auth, isInstructor, createSection);
 
-
-//Add update a Section 
+//Add update a Section
 router.post("/updateSection", auth, isInstructor, updateSection);
 
 //Delete a Section
@@ -52,10 +73,10 @@ router.post("/deleteSubSection", auth, isInstructor, deleteSubSection);
 router.post("/addSubSection", auth, isInstructor, createSubSection);
 
 //Get all Registered Course
-router.get("/getAllCourse", getAllCourse)
+router.get("/getAllCourse", getAllCourse);
 
 //get Details for a Specific Courses
-router.get("/getCourseDetalis", getCourseDetails);
+router.get("/getCourseDetails", getCourseDetails);
 
 // ********************************************************************************************************
 //                                      Category routes (Only by Admin)
@@ -63,17 +84,15 @@ router.get("/getCourseDetalis", getCourseDetails);
 
 //Category can only be Created by Admin
 
-const {auth,isInstructor,isStudent,isAdmin,} = require("../middleware/auth");
-
 router.post("/createCategory", auth, isAdmin, createCategory);
-router.post("/showAllCategory", auth, isAdmin,showAllCategory);
+router.post("/showAllCategory", auth, isAdmin, showAllCategory);
 router.post("/categoryPageDetails", auth, isAdmin, categoryPageDetails);
-
 
 // ********************************************************************************************************
 //                                      Rating and Review
 // ********************************************************************************************************
 router.post("/createRating", auth, isStudent, createRating);
 router.get("/getAverageRating", auth, isStudent, getAverageRating);
-router.get("/getAllRating", auth, isStudent,getAllRating);
+router.get("/getAllRating", auth, isStudent, getAllRating);
 
+module.exports = router;
