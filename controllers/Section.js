@@ -61,7 +61,7 @@
     }
 }
 
-exports.updateSectioon = async (req, res) => {
+exports.updateSection = async (req, res) => {
 
     try{
 
