@@ -1,10 +1,11 @@
 const express = require("express");
 const app = express();
 
-const userRoutes = require("./routes/User");
-const profileRoutes = require("./routes/Payments");
-const paymentRoutes = require("./routes/Profile");
-const courseRoutes = require("./routes/Course");
+const userRoutes = require("./routes/User.js");
+const profileRoutes = require("./routes/Profile.js");
+const paymentRoutes = require("./routes/Payments.js");
+const courseRoutes = require("./routes/Course.js");
+
 
 const database = require("./config/database.js")
 const cookieParser = require("cookie-parser");
@@ -26,10 +27,17 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
         cors({
-            origin: "https://localhost:3000",
+            origin: "http://localhost:3000",
             credentials:true,
              })
        )
+
+       app.use(
+         fileUpload({
+           useTempFiles: true,
+           tempFileDir: "/tmp/",
+         })
+       );
 
 //cloudinary connection
 cloudinaryConnect();
