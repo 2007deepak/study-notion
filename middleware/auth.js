@@ -35,7 +35,7 @@ const user = require("../models/user.js");
         {
             return res.status(404).json({
                 success: false,
-                message : "token is invalide",
+                message : "token is invalid",
             });
         }
 
@@ -85,7 +85,7 @@ exports.isStudent = async (req, res, next) => {
 
 exports.isInstructor = async (req, res, next) => {
   try {
-    if (req.user.accountType !== "isInstructor") {
+    if (req.user.accountType !== "Instructor") {
       return res.status.json({
         success: false,
         message: "This is a Protected route for Instructor only",
@@ -103,13 +103,19 @@ exports.isInstructor = async (req, res, next) => {
 //isAdmin
 exports.isAdmin = async (req, res, next) => {
   try {
-    if (req.user.accountType !== "isAdmin") {
+     console.log("Eamil is : ", req.user.accountType);
+     
+    if (req.user.accountType !== "Admin") {
+      console.log("User is Admin");
       return res.status.json({
         success: false,
         message: "This is a Protected route for Admin only",
       });
+      
     }
+     console.log("Access Granted: User is Admin");
     next();
+    
   } catch (error) {
     return res.status(500).json({
       success: false,
