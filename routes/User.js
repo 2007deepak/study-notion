@@ -10,10 +10,10 @@ const {
     // changePassword ya wala Auth handler abhi baki hai ise karana hai
 } = require("../controllers/Auth.js")
 
-const {
-    resetPasswordToken,
-    resetPassword,
-} = require("../controllers/ResetPassword.js")
+// const {
+//     resetPasswordToken,
+//     resetPassword,
+// } = require("../controllers/ResetPassword.js")
 
 const {auth} = require("../middleware/auth.js")
 
@@ -41,10 +41,5 @@ router.post("/sendOtp", sendOTP)
 //                                      Reset Password
 // ********************************************************************************************************
 
-// Route for generating a reset password token
-router.post("/reset-password-tokene",resetPasswordToken);
-
-// Route for resetting user's password after verification
-router.post("/reset-password", resetPassword);
 
 module.exports = router;
