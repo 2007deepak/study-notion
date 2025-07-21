@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { resetPassword } = require("../controllers/ResetPassword");
+// par reaserpassword conroller ko htaya hai
 
 const userSchema = new mongoose.Schema(
   {
