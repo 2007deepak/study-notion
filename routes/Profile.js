@@ -3,7 +3,7 @@ const router = express.Router()
 const {auth} = require("../middleware/auth.js")
 const {
   updateProfile,
-  deletProfile,
+  deleteProfile,
   getALLUserDetails,
   updateDisplayPicture,
   getEnrolledCourses,
@@ -21,7 +21,7 @@ const {
 // ********************************************************************************************************
 // Delet User Account
 
-router.delete("/deleteProfile", deletProfile);
+router.delete("/deleteProfile",  auth,deleteProfile);
 router.put("/updateProfile", auth, updateProfile)
 router.get("/getuserDetails", auth, getALLUserDetails)
 
