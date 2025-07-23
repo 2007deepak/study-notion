@@ -10,7 +10,10 @@ const user = require("../models/user.js");
         
         // extract token 
 
-        const token = req.cookies.token || req.body.token || req.header("authreization").replace("Bearer ","");
+        const token =
+          req.cookies.token ||
+          req.body.token ||
+          req.header("authorization")?.replace("Bearer ", "");
 
         //if token is missing,then return responce
 
@@ -86,6 +89,8 @@ exports.isStudent = async (req, res, next) => {
 exports.isInstructor = async (req, res, next) => {
   try {
     if (req.user.accountType !== "Instructor") {
+     // console.log("User is :", req.user.accountType);
+      
       return res.status.json({
         success: false,
         message: "This is a Protected route for Instructor only",
@@ -106,7 +111,7 @@ exports.isAdmin = async (req, res, next) => {
      console.log("Eamil is : ", req.user.accountType);
      
     if (req.user.accountType !== "Admin") {
-      console.log("User is Admin");
+    //  console.log("User is Admin");
       return res.status.json({
         success: false,
         message: "This is a Protected route for Admin only",
