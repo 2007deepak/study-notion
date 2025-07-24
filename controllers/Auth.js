@@ -1,9 +1,10 @@
 const User = require("../models/user.js");
 const OTP = require("../models/OTP.js");
-const otpGenerator = reqiure("otp-generator");
-const bcrypt = required("bcrypt");
-const jwt = required("jsonwebtoken");
-const nodemailer = required("nodemailer");
+const otpGenerator = require("otp-generator");
+const Profile = require("../models/Profile.js");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
 
 
 require("dotenv").config();
@@ -12,7 +13,8 @@ require("dotenv").config();
 exports.sendOTP = async(req , res) =>{
 
     //fetch email from body
-
+   // console.log("Icomming Body Data:", req.body);
+    
     const {email} = req.body;
 
     //check if user already exist
@@ -39,25 +41,27 @@ exports.sendOTP = async(req , res) =>{
 
     try{
       //check unique otp or not
-      const checkOTP = await OTP.find({ otp: otp });
+      const result = await OTP.findOne({ otp: otp });
+      console.log("Result is Generate OTP Func");
+       console.log("OTP", otp);
+      console.log("Result", result);
 
       while (result) {
         otp = otpGenerator(6, {
+         
           upperCaseAlphabets: false,
           lowerCaseAlphabets: false,
           specialChars: false,
         });
-        result = await OTP.find({ otp: otp });
+         result = await OTP.findOne({ otp: otp });
       }
       //isame email user ke liye generate ho raha hai
       // otp generate kiya gya otp hai
-
       const otpPayload = { email, otp };
 
       //craete an entry for otp in database
-      const otpBody = await OTP.create({ otp: otp });
-
-      console.log(otpBody);
+      const otpBody = await OTP.create({ email, otp });
+      console.log("OTP Body",otpBody);
 
       // returan response successful
 
@@ -68,7 +72,7 @@ exports.sendOTP = async(req , res) =>{
       });
 
       
-      
+
 
     }catch(error)
     {
@@ -140,7 +144,7 @@ exports.signUp = async(req, res) => {
        .sort({ createdAT: -1 })
        .limit(1);
 
-     console.log(recentOtp);
+     console.log( "recent otp : ",recentOtp);
 
      //validate OTP
 
@@ -162,12 +166,14 @@ exports.signUp = async(req, res) => {
      const hashPassword = await bcrypt.hash(password, 10);
 
      // entry create in Database
-     const profileDetails = await Profiler.create({
+     const profileDetails = await Profile.create({
        gender: null,
        dateOfBirth: null,
        about: null,
        contactNumber: null,
      });
+     console.log( profileDetails);
+     
 
      const user = await User.create({
        firstName,
@@ -219,10 +225,15 @@ exports.login = async(req, res) => {
                 success : false,
                 message : "User not registered, please signup first" , 
             })
-
+        }
+        const isPasswordMatch = await bcrypt.compare(password, user.password);
+        if (!isPasswordMatch) {
+          return res.status(401).json({
+            success: false,
+            message: "Password incorrect", // Wrong password message
+          });
         }
         //generrate JWT,after password matching means compare
-        if (!bcrypt.compareSync(password, user.password)) {
           const payload = {
             email: user.email,
             id: user._id,
@@ -239,20 +250,13 @@ exports.login = async(req, res) => {
             expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
             httpOnly: true,
           };
-          res.cookies("token", token, options).status(200).json({
+          res.cookie("token", token, options).status(200).json({
             success: true,
             token,
             user,
             message: "Login Succssfully",
           });
-        } 
-        else {
-          return res.status(400).json({
-            succes: false,
-            message: "Logged in Successfully",
 
-          });
-        }
     }catch(error){
         console.log(error);
         return res.status(500).json({
