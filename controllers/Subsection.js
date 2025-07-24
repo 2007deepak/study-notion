@@ -1,41 +1,48 @@
-    const SubSection = require("../models/SubSection.js")
-    const Section = require("../models/Section.js");
-    const {uploadImangeToCloudinary} = require("../utills/imageUploader.js");
-    
+const SubSection = require("../models/SubSection.js");
+const Section = require("../models/Section.js");
+const { uploadingImageToCloudinary } = require("../utils/imageUploader.js");
 
-    exports.createSubSection = async (req , res ) => {
 
-    try{
+exports.createSubSection = async (req, res) => {
+  try {
     // fetch data
-    const {sectionId, title, timeDuration, description} = req.body;
+    const { sectionId, title, timeDuration, description} = req.body;
 
     // extract file/data
-    const video = req.files.videofiles;
+    const video = req.files?.videoFile;
     // validation
-    if(!sectionId || !title || !timeDuration || description || video) {
-        return res.status(400).json({
-            success: false,
-            message:"All field are required",
-        });
+    if (!sectionId || !title || !timeDuration || !description || !video) {
+      return res.status(400).json({
+        success: false,
+        message: "All field are required",
+      });
+
     }
     //upload video to cloudinary
 
-    const uploadDetails = await uploadImangeToCloudinary(video, process.env.FOLDER_NAME);
-    //create a sub-section 
+    const uploadDetails = await uploadingImageToCloudinary(
+      video,
+      process.env.FOLDER_NAME
+    );
+    //create a sub-section
 
-    const SubSectionDetails = await SubSection.create({
-    title: title,
-    description:description,
-    timeDuration:timeDuration,
-    videoUrl:uploadDetails.secure_url,
+    const subSectionDetails = await SubSection.create({
+      title: title,
+      description: description,
+      timeDuration: timeDuration,
+      videoFile: uploadDetails.secure_url,
     });
     //update section with this sub section ObjectID
-    const updatedSection = await Section.findByIdAndUpdate({_id:sectionId},
-                
-    {$push:{
-        SubSection:SubSectionDetails._id,
-    }},
-    {new:true});
+    const updatedSection = await Section.findByIdAndUpdate(
+      { _id: sectionId },
+
+      {
+        $push: {
+          subSection: subSectionDetails._id,
+        },
+      },
+      { new: true }
+    ).populate("subSection");;
 
     // main chahata hu only updatedsection ka data log karana hai id na dikhe sab
     // mujhe papuated dikhe
@@ -44,24 +51,20 @@
     //response return
 
     return res.status(200).json({
-            success : true,
-            massage: "Sub Section Created Successfully",
-            updatedSection,
-
+      success: true,
+      massage: "Sub Section Created Successfully",
+      updatedSection,
     });
-    }catch(error)
-    {
-        return res.status(500).json({
-            success : flase,
-            massage: "Internal Server Issuse",
-            error:error.message,
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      massage: "Internal Server Issuse",
+      error: error.message,
+    });
+  }
+};
 
-
-        });
-    }
-}
-
-//HW : UpdateSubSection 
+//HW : UpdateSubSection
 exports.updateSubSection = async (req, res) => {
   try {
     const { sectionId, title, description } = req.body;
@@ -82,8 +85,8 @@ exports.updateSubSection = async (req, res) => {
       subSection.description = description;
     }
     if (req.files && req.files.video !== undefined) {
-      const video = req.files.video;
-      const uploadDetails = await uploadImageToCloudinary(
+      const video = req.files.videoFile; 
+      const uploadDetails = await uploadingImageToCloudinary(
         video,
         process.env.FOLDER_NAME
       );
