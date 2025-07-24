@@ -1,137 +1,114 @@
 const Profile = require("../models/Profile.js");
 const User = require("../models/user.js");
-const { uploadImageToCloudinary } = require("../utils/imageUploader");
+const { uploadingImageToCloudinary } = require("../utils/imageUploader.js");
 
 exports.updateProfile = async (req, res) => {
+  try {
+    //get data
+    const { dateOfBirth = "",about = "",contactNumber,gender }=req.body;
 
-    try{
+    //get user id
+    const id = req.user.id;
 
-        //get data
-        const {dataOfBirth="", about="", contanctNumber, gender} = req.body;
+    //validation
+    if (!contactNumber || !gender || !id) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are require",
+      });
+    }  
+    //find Profile
+    const userDetalis = await User.findById(id);
+    const profileId = userDetalis.additionalDetails;
+    const profilesDetails = await Profile.findById(profileId);
 
-        //get user id
-         const id = req.user.id;
+    //update profile
+    profilesDetails.dateOfBirth = dateOfBirth;
+    profilesDetails.about = about;
+    profilesDetails.gender = gender;
+    profilesDetails.contactNumber = contactNumber;
+    await profilesDetails.save();
 
-         //validation
-         if (!contanctNumber || !gender || !id) {
-
-            return res.status(400).json({
-                success: false,
-                message:"All fields are require",
-            });
-        }
-
-        //find Profile
-        const userDetalis = await User.findById(id);
-        const profileId = userDetalis.additionalDetails;
-        const profilesDetails = await Profile.findById(profileId);
-
-
-        //update profile
-
-        profilesDetails.dateOfBirth = dataOfBirth;
-        profilesDetails.about = about;
-        profilesDetails.gender =  gender;
-        profilesDetails.contactNumber = contanctNumber;
-        await profilesDetails.save();
-
-        // return response
-        return res.status(200).json({
-            success: true,
-            message : "Profile Updated Successfully",
-            profilesDetails,
-        })
-
-    }catch(error)
-    {
-        return res.status(500).json({
-          success: false,
-          error: error.message,
-        });
-
-    }
-}
+    // return response
+    return res.status(200).json({
+      success: true,
+      message: "Profile Updated Successfully",
+      profilesDetails,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
 
 // deletion of user PRofile
 
-exports.deletProfile = async(res, req) =>{
+exports.deleteProfile = async (req, res) => {
+  try {
+    //get id
+    console.log("Printing ID: ", req.user.id);
+    const id = req.user.id;
 
+    // validation
+    const user = await User.findById({ _id: id });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
 
-   try{
-     //get id
-     const id = req.user.id;
+    // delete Profiles
+    await Profile.findByIdAndDelete({ _id: user.additionalDetails });
+    //user delete
+    await User.findByIdAndDelete({ _id: id });
 
-     // validation
-     const userDetails = await User.findId(id);
-     if (!userDetails) {
-       return res.status(404).json({
-         success: false,
-         message: "User not found",
-       });
-     }
+    //response
+    return res.status(200).json({
+      success:true,
+      message:"User Delete Successfully",
+    });
 
-     // delete Profiles
-
-     await Profile.findByIdDelete({ _id: userDetails.additionalDetails });
-
-     //user delete
-
-     await User.findByIdAndDelete({ _id: id });
-
-     //response
-
-     return res.status(200).json({
-       success: true,
-       message: "User Details Successfully",
-     });
-
-   }catch(error)
-   {
-
+    } catch (error) {
     return res.status(404).json({
       success: false,
-      message: 'User cannot be deleted successfully',
+      message: "User cannot be deleted successfully",
+      error: error.message,
+    });
+  }
+};
+
+exports.getALLUserDetails = async (req, res) => {
+  try {
+    // get user id
+    const id = req.user.id;
+
+    // validation and  get user detalis
+    const userDetails = await User.findById(id)
+      .populate("additionalDetails")
+      .exec();
+    console.log(userDetails);
+    //return response
+    return res.status(200).json({
+      success: true,
+      message: "User Data Fetched Successfully",
+      data:userDetails,
+    });
+  } catch (error) {
+    return res.status(404).json({
+      success:false,
+      message:error.massege,
     });
    }
-
-}
-
-exports.getALLUserDetails = async (res , req) => {
-
-    try{
-
-        // get user id
-
-        const id = req.user.id;
-    
-        // validation and  get user detalis 
-        const userDetails = await User.findById(id).populate(
-          "additionalDetails"
-        )
-        	.exec();
-		console.log(userDetails);
-        //return response
-        return res.status(200).json({
-          success: true,
-          message: "User Data Fetched Successfully",
-        });
-
-    }catch(error)
-    {
-        return res.status(404).json({
-            success:false,
-            message:error.massege,
-
-        });
-    }
-}
-
+};
 
 exports.updateDisplayPicture = async (req, res) => {
   try {
     const displayPicture = req.files.displayPicture;
     const userId = req.user.id;
-    const image = await uploadImageToCloudinary(
+    const image = await uploadingImageToCloudinary(
       displayPicture,
       process.env.FOLDER_NAME,
       1000,
