@@ -4,7 +4,7 @@ const User = require("../models/user.js");
 const { uploadingImageToCloudinary } = require("../utils/imageUploader.js");
 
 exports.createCourse = async (req, res) => {
-  try {
+  try{
     //get user ID from request object
     const userId = req.user.id;
 
