@@ -8,36 +8,35 @@
 
     //fetch data
 
-    const {SectionName , courseId} = req. body;
+    const {sectionName , courseId} = req. body;
 
     // data validation
     try{
+       // console.log("req.body", req.body);
         
-    if(!SectionName || !courseId){
-
+    if(!sectionName || !courseId){
+        console.log("SectionName or courseId is missing");
         return res.status(400).json({
             success:false,
             message: "Missing Properties"
         }) 
-
+        
     }
     //create Section
 
-    const  newSection = await newSection.create({SectionName});
+    const  newSection = await Section.create({sectionName});
 
 
     //update the course with section objectId
 
-    const course = await course.findOneAndUpdate(
-                                        courseId,
-                                        {
-                                        $push:{
-                                            courseContent:newSection._id,
-
-                                        } ,
-                                        },
-                                        {new:true},
-                                        
+    const updatedCourseDetails = await Course.findOneAndUpdate(
+      { _id:courseId },
+      {
+        $push: {
+          courseContent: newSection._id,
+        },
+      },
+      { new: true }
     );
 
     //HW : use populate to replace section / sub-section both in the updatedCourseDetalis
@@ -51,9 +50,9 @@
 
     }
     catch(error){
-        console.log(error);
-        return res.stauts(200).json({
-            success: true,
+       // console.log( "error hai", error);
+        return res.status(200).json({
+            success: false,
             message:"Unable to create Section,plese try again",
 
         });
@@ -82,7 +81,7 @@ exports.updateSection = async (req, res) => {
 
         // data Update karana
 
-        const updateSection = await updateSection.findByIdAndUpdate(sectionId, {sectionName}, {new:true}
+        const updateSection = await Section.updateSection.findByIdAndUpdate(sectionId, {sectionName}, {new:true}
 
         );
 
@@ -90,7 +89,6 @@ exports.updateSection = async (req, res) => {
         return res.status(200).json({
           success: true,
           message: "Section Updated successfully",
-         
         });
 
     }catch(error)
