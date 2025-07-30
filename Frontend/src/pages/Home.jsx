@@ -10,7 +10,7 @@ function Home (){
     <div>
       {/*Section1 */}
       <div
-        className="reletive mx-auto flex flex-col w-11/12 items-center
+        className="relative mx-auto flex flex-col w-11/12 items-center
       text-white justify-between"
       >
         <Link to="/signup">
@@ -91,10 +91,10 @@ function Home (){
               </div>
             }
             subheading={
-              "Go ahead,give it a try hands on learnig enviroment means you'll be writting real code from your very first lesson."
+              "Go ahead,give it a try hands-on learning environment means you'll be writing real code from your very first lesson."
             }
             ctabtn1={{
-              btnText: "try it yourse",
+              btnText: "try it yourself",
               linkto: "/signup",
               active: true,
             }}
