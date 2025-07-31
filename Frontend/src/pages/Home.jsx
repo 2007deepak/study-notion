@@ -5,6 +5,9 @@ import HighlightText from "../components/core/HomePage/HighlightText";
 import CTAButton from  "../components/core/HomePage/CTAButton.jsx";
 import Banner from "../assets/Images/banner.mp4"
 import CodeBlocks from "../components/core/HomePage/CodeBlocks.jsx"
+import TimelineSection from "../components/core/HomePage/TimelineSection.jsx"
+import LearningLanguageSection  from "../components/core/HomePage/LearningLanguageSection.jsx"
+import InstructorSection from "../components/core/HomePage/InstructorSection.jsx";
 function Home (){
   return (
     <div>
@@ -109,7 +112,56 @@ function Home (){
         </div>
       </div>
       {/*Section2 */}
+
+      <div className="bg-pure-greys-5 text-richblack-700">
+        <div className="homepage_bg h-[310px]">
+          <div className="w-11/12 max-w-maxContent flex  flex-col  items-center gap-5 mx-auto">
+            <div className="h-[150px]"></div>
+            <div className="flex flex-row gap-7 text-white">
+              <CTAButton active={true} linkto={"/signup"}>
+                <div>
+                  Explore Full Catalog
+                  <FaArrowRight />
+                </div>
+              </CTAButton>
+              <CTAButton active={false} linkto={"/login"}>
+                <div>Learn more</div>
+              </CTAButton>
+            </div>
+          </div>
+        </div>
+
+        <div className="mx-auto w-11/12 max-w-maxContent flex flex-col justify-between ">
+          <div className="flex flex-row gap-5 mt-[95px] mb-10">
+            <div className="text-4xl font-semibold w-[45%]">
+              Get the Skill you need for a
+              <HighlightText text={"job that is in demand"} />
+            </div>
+
+            <div className="flex flex-col gap-10 w-[40%] items-start">
+              <div className="text-[16px]">
+                This modern StudyNotion is the ditects its own.Today, to be a
+                competetive specialist requires more than professional skills.
+              </div>
+              <CTAButton active={true} linkto={"/signup"}>
+                <div>Learn more</div>
+              </CTAButton>
+            </div>
+          </div>
+          <TimelineSection />
+          <LearningLanguageSection />
+        </div>
+      </div>
+
       {/*Section3 */}
+
+      <div className="w-11/12 mx-auto max-w-maxContent flex flex-col items-center justify-between gap-8 bg-richblack-900 text-white">
+
+        <InstructorSection/>
+        <h2 className="text-center text-4xl font-semibold mt-10 text-pure-greys-50">Reviews from other learners</h2>
+        {/* Review Slider here */}
+
+      </div>
       {/*Footer */}
     </div>
   );
