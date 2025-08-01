@@ -7,7 +7,8 @@ import Banner from "../assets/Images/banner.mp4"
 import CodeBlocks from "../components/core/HomePage/CodeBlocks.jsx"
 import TimelineSection from "../components/core/HomePage/TimelineSection.jsx"
 import LearningLanguageSection  from "../components/core/HomePage/LearningLanguageSection.jsx"
-import InstructorSection from "../components/core/HomePage/InstructorSection.jsx";
+import InstructorSection from "../components/core/HomePage/InstructorSection.jsx"
+import ExploreMore from "../components/core/HomePage/ExploreMore.jsx";
 function Home (){
   return (
     <div>
@@ -83,7 +84,7 @@ function Home (){
           ></CodeBlocks>
         </div>
 
-        {/*Code Section 1 */}
+        {/*Code Section 2 */}
         <div className=" max-w-[1000px]">
           <CodeBlocks
             position={"lg: flex-row-reverse"}
@@ -110,6 +111,8 @@ function Home (){
             codeColor={"text-yellow-25"}
           ></CodeBlocks>
         </div>
+
+            <ExploreMore/>
       </div>
       {/*Section2 */}
 
