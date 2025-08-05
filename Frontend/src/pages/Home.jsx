@@ -29,14 +29,15 @@ function Home (){
           </div>
         </Link>
 
-        <div>
+        <div className="font-semibold mt-5 text-3xl">
           Empower Your Future With Coding Skills
           <HighlightText text={"Coding Skills"} />
         </div>
 
-        <div className=" mt-4 text-center text-lg font-bold text-richblack-300">
+        <div className=" mt-4 text-center text-lg font-bold text-richblack-300 max-w-[1000px]">
           With our online coding course, you can learn at your own pace, from
-          anywhre in the
+          anywhre in the world, get access to a wealth of resources,including
+          hands-on projects,quizzes,and presonalized feedback from instructors.
         </div>
 
         <div className="flex flex-row gap-7 mt-8">
@@ -112,7 +113,7 @@ function Home (){
           ></CodeBlocks>
         </div>
 
-            <ExploreMore/>
+        <ExploreMore />
       </div>
       {/*Section2 */}
 
@@ -159,11 +160,11 @@ function Home (){
       {/*Section3 */}
 
       <div className="w-11/12 mx-auto max-w-maxContent flex flex-col items-center justify-between gap-8 bg-richblack-900 text-white">
-
-        <InstructorSection/>
-        <h2 className="text-center text-4xl font-semibold mt-10 text-pure-greys-50">Reviews from other learners</h2>
+        <InstructorSection />
+        <h2 className="text-center text-4xl font-semibold mt-10 text-pure-greys-50">
+          Reviews from other learners
+        </h2>
         {/* Review Slider here */}
-
       </div>
       {/*Footer */}
     </div>
