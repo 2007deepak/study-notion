@@ -1,7 +1,12 @@
 import {combineReducers} from "@reduxjs/toolkit"
-import authReducer from "../slices/authSlice.js"
+import authReducer from "../slices/authSlice.jsx"
+import profileReducer from "../slices/profileSlice.jsx";
+import cartReducer from "../slices/cartSlice.jsx"
+
 
 const rootRouter = combineReducers({
-    auth : authReducer,
-})
+  auth: authReducer,
+  profile: profileReducer,
+  cart: cartReducer,
+});
 export default rootRouter;
