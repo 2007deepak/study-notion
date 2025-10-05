@@ -25,16 +25,16 @@ function ExploreMore() {
 
   return (
     <div>
-      <div className="text-4xl font-semibold text-center">
+      <div className=" w-full  text-3xl md:text-4xl font-semibold text-center">
         Unlock the
         <HighlightText text={"Power of Code"} />
       </div>
 
-      <p className="text-center text-richblack-300 text-sm text-[16px] mt-3 mb-5">
+      <p className="text-center text-richblack-300 text-sm md:text-lg mt-3 mb-5">
         Learn to build anything you can imagine
       </p>
-      <div className='flex flex-box rounded-full bg-richblack-800 gap-4 mb-4 px-2 py-2'>
-            {tabName.map((element, index) => {
+      <div className="flex flex-box rounded-full bg-richblack-800 gap-4 mb-4 px-2 py-2">
+        {tabName.map((element, index) => {
           return (
             <div
               className={`text-[16px] flex flex-row items-center gap-2 
