@@ -48,17 +48,19 @@ function ContactUsForm() {
  
   return (
     <form onSubmit={handleSubmit(submitContactForm)}>
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-5">
         {/* firstName*/}
 
         <div className="flex  flex-row gap-5">
-          <div className="flex flex-col gap-2">
-            <label htmlfor="">First Name</label>
+          <div className="flex flex-col gap-1 ">
+            <label className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
+              First Name
+            </label>
             <input
               type="text"
               placeholder=" Enter First Name"
               id="firstname"
-              className="text-black"
+              className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
               {...register("firstname", { required: "First Name is required" })}
             />
             {errors.firstname && (
@@ -68,12 +70,15 @@ function ContactUsForm() {
             )}
           </div>
 
-          <div className="flex flex-col gap-2">
-            <label htmlfor="">Last Name</label>
+          <div className="flex flex-col gap-1">
+            <label className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
+              Last Name
+            </label>
             <input
               type="text"
               placeholder="Enter Last Name"
               id="lastname"
+              className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
               {...register("lastname", { required: "lastname is required" })}
             />
             {errors.lastname && (
@@ -85,12 +90,15 @@ function ContactUsForm() {
         </div>
 
         {/* email*/}
-        <div className="flex flex-col gap-2">
-          <label htmlfor="">Email Address</label>
+        <div className="flex flex-col gap-1">
+          <label className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
+            Email Address
+          </label>
           <input
             type="email"
             placeholder="Enter Your Email"
             id="email"
+            className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
             {...register("email", {
               required: "Email is required",
             })}
@@ -103,15 +111,17 @@ function ContactUsForm() {
         </div>
 
         {/* phone no */}
-        <div className="flex flex-col gap-2">
-          <label htmlfor="phoneNumber">Phone Number</label>
+        <div className="flex flex-col gap-1">
+          <label className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
+            Phone Number
+          </label>
           <div className="flex flex-row gap-5">
             {/* Dropdown */}
             <div className="flex w-[80px] flex-col">
               <select
                 name="dropdown"
                 id="dropdown"
-                className="text-black"
+                className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
                 {...register("countrycode", { required: true })}
               >
                 {countryCode.map((element, index) => {
@@ -130,7 +140,7 @@ function ContactUsForm() {
                 name="phonenumber"
                 id="phonnumner"
                 placeholder="12345 67890"
-                className="text-black"
+                className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
                 {...register("phoneNo", {
                   required: {
                     value: true,
@@ -147,15 +157,15 @@ function ContactUsForm() {
 
         {/* message */}
 
-        <div className="flex flex-col gap-2">
-          <label htmlfor="">Message</label>
+        <div className="flex flex-col gap-1">
+          <label className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">Message</label>
           <textarea
             type="text"
             placeholder="Enter Your Message"
             cols="30"
             rows={7}
             id="message"
-            className="text-black"
+            className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
             {...register("message", { required: true })}
           />
           {errors.message && (
