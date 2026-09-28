@@ -7,11 +7,10 @@ exports.resetPasswordToken = async (req, res) => {
   try {
     //fetch email from body
     const email = req.body.email;
-   
-      
+    
     //validate email
     const user = await User.findOne({ email: email });
-   // console.log("User found:", user);
+    // console.log("User found:", user);
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -28,20 +27,20 @@ exports.resetPasswordToken = async (req, res) => {
         token: token,
         resetPasswordExpire: Date.now() + 5 * 60 * 1000,
       },
-      { new: true }
+      { new: true },
     );
-    
+
     //create url
-    const url = `http://localhost:3000/update-password/${token}`;
+    const url = `http://localhost:5173/update-password/${token}`;
     //send mail containing the url
     await mailSender(
       email,
       "Password Reset Link",
-      `Password Reset Link:${url}`
+      `Password Reset Link:${url}`,
     );
     // return response
-  console.log("400000000");
-  
+    console.log("400000000");
+
     return res.status(200).json({
       success: true,
       message: "Email sent successfully, please check email and change pwd",
@@ -58,17 +57,17 @@ exports.resetPasswordToken = async (req, res) => {
 exports.resetPassword = async (req, res) => {
   try {
     //fect data
-    const { token, password, confirmPassword } = req.body; 
+    const { token, password, confirmPassword } = req.body;
     //validate data
     if (!password || !confirmPassword) {
       return res.status(400).json({
-        successs: false,
+        success: false,
         message: "Password not matching",
       });
     }
 
     //gett userdetails from db using token
-       console.log("60000000");
+    console.log("60000000");
     const userdetails = await User.findOne({ token: token });
     //if no entry - invalid token
     if (!userdetails) {
@@ -81,9 +80,9 @@ exports.resetPassword = async (req, res) => {
     if (userdetails.resetPasswordExpire < Date.now()) {
       return res.status(400).json({
         success: false,
-        messager: "Token is Invalid",
+        message: "Token is Invalid",
       });
-    }  
+    }
 
     //hash Password
     const hashPassword = await bcrypt.hash(password, 10);
@@ -91,7 +90,7 @@ exports.resetPassword = async (req, res) => {
     await User.findOneAndUpdate(
       { token: token },
       { password: hashPassword },
-      { new: true }
+      { new: true },
     );
     //return response
     return res.status(200).json({
