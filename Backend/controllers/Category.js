@@ -48,10 +48,10 @@ exports.createCategory = async (req , res) =>{
 exports.showAllCategory = async (req , res) => {
     try{
 
-       // console.log("showAllCategory called");
+        console.log("showAllCategory API Hit");
         
         const allCategory = await Category.find({} , {name:true , description: true});
-       //   console.log("allCategory", allCategory);
+         console.log("allCategory", allCategory);
         res.status(200).json({
           success: true,
           data: allCategory,
@@ -60,6 +60,11 @@ exports.showAllCategory = async (req , res) => {
     }
     catch(error)
     {
+
+          console.log("========== ERROR ==========");
+          console.log(error);
+          console.log("===========================");
+
         return res.status(500).json({
             success : false,
             message : error.message,
