@@ -4,7 +4,7 @@ const Section = require("../models/Section.js");
 exports.createSection = async (req, res) => {
   //fetch data
 
-  const { sectionName, courseId } = req.body;
+  const { sectionName, courseId } = req.body; 
 
   // data validation
   try {
